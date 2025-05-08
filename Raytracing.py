@@ -55,3 +55,46 @@ t2=np.zeros(ntau)
 
 phi1=np.zeros(ntau)
 phi2=np.zeros(ntau)
+#loop for time integration Runge Kutta 2
+for j in range(0,ntau):
+    tau[j]=taun
+
+    r1[j]=r1n
+    r2[j]=r2n
+
+    t1[j]=t1n
+    t2[j]=t2n
+
+    phi1[j]=phi1n
+    phi2[j]=phi2n
+
+    k1r1=dtau*fr1(t1n,t2n,r1n,r2n,phi1n,phi2n)
+    k1r2=dtau*fr2(t1n,t2n,r1n,r2n,phi1n,phi2n)
+
+    k1t1=dtau*ft1(t1n,t2n,r1n,r2n,phi1n,phi2n)
+    k1t2=dtau*ft2(t1n,t2n,r1n,r2n,phi1n,phi2n)
+
+    k1phi1=dtau*fphi1(t1n,t2n,r1n,r2n,phi1n,phi2n)
+    k1phi2=dtau*fphi2(t1n,t2n,r1n,r2n,phi1n,phi2n)
+
+
+    k2r1=dtau*fr1(t1n+0.5*k1t1,t2n+0.5*k1t2,r1n+0.5*k1r1,r2n+0.5*k1r2,phi1n+0.5*k1phi1,phi2n+0.5*k1phi2)
+    k2r2=dtau*fr2(t1n+0.5*k1t1,t2n+0.5*k1t2,r1n+0.5*k1r1,r2n+0.5*k1r2,phi1n+0.5*k1phi1,phi2n+0.5*k1phi2)
+
+    k2t1=dtau*ft1(t1n+0.5*k1t1,t2n+0.5*k1t2,r1n+0.5*k1r1,r2n+0.5*k1r2,phi1n+0.5*k1phi1,phi2n+0.5*k1phi2)
+    k2t2=dtau*ft2(t1n+0.5*k1t1,t2n+0.5*k1t2,r1n+0.5*k1r1,r2n+0.5*k1r2,phi1n+0.5*k1phi1,phi2n+0.5*k1phi2)
+
+    k2phi1=dtau*fphi1(t1n+0.5*k1t1,t2n+0.5*k1t2,r1n+0.5*k1r1,r2n+0.5*k1r2,phi1n+0.5*k1phi1,phi2n+0.5*k1phi2)
+    k2phi2=dtau*fphi2(t1n+0.5*k1t1,t2n+0.5*k1t2,r1n+0.5*k1r1,r2n+0.5*k1r2,phi1n+0.5*k1phi1,phi2n+0.5*k1phi2)
+
+    t1n=t1n+k2t1
+    t2n=t2n+k2t2
+
+    r1n=r1n+k2r1
+    r2n=r2n+k2r2
+
+    phi1n=phi1n+k2phi1
+    phi2n=phi2n+k2phi2
+
+    taun=taun+dtau
+
