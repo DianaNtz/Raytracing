@@ -98,3 +98,25 @@ for j in range(0,ntau):
 
     taun=taun+dtau
 
+#create animation with matplotlib
+x,y=r1*np.cos(phi1),r1*np.sin(phi1)
+fig, ax = plt.subplots(figsize=(7,7))
+line2 = ax.plot(2*M*np.cos(phi1),2*M*np.sin(phi1),"-",linewidth=3.0,color='k')
+line1 = ax.plot(x[0], y[0],color='yellow',linestyle=':',linewidth=6)[0]
+ax.set_xlim(-3.1,3.1)
+ax.set_ylim(-3.1,3.1)
+plt.xlabel("x",fontsize=19)
+plt.ylabel(r'y',fontsize=19,rotation=0)
+plt.xticks(fontsize= 19)
+plt.yticks(fontsize= 19)
+
+
+i=40
+def update(frame):
+    # update the line plot:
+    line1.set_xdata(x[:frame*i])
+    line1.set_ydata(y[:frame*i])
+    return (line1, line2)
+ani = animation.FuncAnimation(fig=fig, func=update, frames=int(ntau/i), interval=1)
+ani.save("animated_IBCO.gif")
+plt.show()
